@@ -1,0 +1,8 @@
+@import '../../default.scss';
+
+.chat-page {
+  display: grid;
+  grid-template-columns: 0.3fr 1fr;
+  grid-column-gap: 1.5rem;
+  height: 100%;
+}

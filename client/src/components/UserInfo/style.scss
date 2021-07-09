@@ -1,0 +1,42 @@
+@import '../../default.scss';
+
+.user-info {
+  width: 100%;
+  min-height: 25rem;
+  @include flex(column, center, space-between);
+
+  .username {
+    font-weight: bold;
+    font-size: $normal;
+    color: black;
+    margin-bottom: 1rem;
+  }
+  .bio {
+    font-weight: lighter;
+    font-size: $small;
+    color: darken($grey, 20%);
+  }
+  .user-new-img {
+    height: 50%;
+    width: 50%;
+    object-fit: contain;
+  }
+  & input {
+    display: block;
+  }
+}
+.profile-numbers {
+  margin: 3rem 0;
+  width: 100%;
+  @include flex(row, center, space-between);
+}
+.profile-number {
+  @include flex(column, center, center);
+
+  & p:first-child {
+    font-weight: bold;
+  }
+  & p:last-child {
+    font-size: $small;
+  }
+}

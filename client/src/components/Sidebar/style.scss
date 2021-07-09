@@ -1,0 +1,14 @@
+@import '../../default.scss';
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: $sidebar;
+
+  padding: 3rem;
+  & .title {
+    text-align: center;
+    font-size: $medium;
+  }
+}

@@ -1,0 +1,75 @@
+@import '../../../default.scss';
+
+.post {
+  width: 100%;
+  max-width: 60rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: darken($sidebar, 2%);
+  border-radius: 1.5rem;
+  @include flex(column, center, center);
+  .post-data {
+    width: 100%;
+    @include flex(row, center, space-between);
+  }
+
+  .post-body {
+    width: 100%;
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+    margin-left: 1rem;
+    .post-content {
+      font-weight: bold;
+      margin: 1.5rem 0;
+    }
+  }
+  .no-comment {
+    color: $darkgrey;
+    margin: auto;
+    margin-top: 1.5rem;
+    font-size: $small;
+  }
+
+  .post-interactions {
+    width: 100%;
+    border-top: 1px solid $darkgrey;
+    border-bottom: 1px solid $darkgrey;
+    padding: 0.5rem;
+    @include flex(row, center, space-between);
+    .count {
+      @include transition;
+    }
+    & div:nth-child(1):hover {
+      svg {
+        fill: $error;
+      }
+      p {
+        color: $error;
+      }
+    }
+    & div:nth-child(2):hover {
+      svg {
+        fill: darken($success, 10%);
+      }
+      p {
+        color: darken($success, 10%);
+      }
+    }
+    & div:nth-child(3):hover {
+      svg {
+        fill: $blue;
+      }
+      p {
+        color: $blue;
+      }
+    }
+  }
+
+  .interaction {
+    @include flex('', center, center);
+    & p {
+      margin-left: 1.5rem;
+      font-weight: bold;
+    }
+  }
+}

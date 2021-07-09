@@ -1,0 +1,24 @@
+@import '../../default.scss';
+
+.back-to-top {
+  display: block;
+  @include box(5rem);
+  margin: auto;
+  margin-bottom: 8rem;
+  border-radius: 50%;
+  @include background-transition($accent2, lighten($accent2, 20%));
+  @include flex('', center, center);
+  cursor: pointer;
+  padding: 1rem;
+  &:hover svg {
+    transform: translateY(-0.5rem) rotate(180deg);
+  }
+  & svg {
+    transform: rotate(180deg);
+    fill: darken($accent2, 20%);
+    @include transition;
+    &:hover {
+      fill: darken($accent2, 20%);
+    }
+  }
+}

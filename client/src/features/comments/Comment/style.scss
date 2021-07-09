@@ -1,0 +1,34 @@
+@import '../AddComment//style.scss';
+@import '../../../default.scss';
+.comment {
+  @extend .add-comment;
+  @include flex(column, start, start);
+  background-color: darken($lightgrey, 8%);
+  border-radius: 3rem;
+  padding: 1rem;
+  color: $black;
+
+  .comment-content {
+    width: 100%;
+    @include flex('', center, space-between);
+    & svg {
+      width: 2.5rem;
+    }
+  }
+  .comment-header {
+    width: 100%;
+    @include flex('', '', space-between);
+  }
+  .comment-info {
+    .post-username {
+      font-size: $small !important;
+    }
+    .post-date {
+      font-size: $smallest !important;
+    }
+    & img {
+      width: 3rem !important;
+      height: 3rem !important;
+    }
+  }
+}

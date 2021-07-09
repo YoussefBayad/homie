@@ -1,0 +1,18 @@
+@import '../../../default.scss';
+
+.show-comments {
+  width: 100%;
+  text-align: center;
+  .show-comments-p {
+    display: inline;
+    color: darken($blue, 25%);
+    margin-top: 1.5rem;
+    border-bottom: 1px solid darken($blue, 25%);
+    font-size: $small;
+    cursor: pointer;
+    height: 1.5rem;
+    &:hover {
+      border: none;
+    }
+  }
+}
