@@ -6,8 +6,9 @@ import mongoose from 'mongoose';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import multer from 'multer';
-import cors from 'cors';
 import connectDb from './config/db.js';
+
+// routes
 import userRoute from './routes/users.js';
 import postRoute from './routes/posts.js';
 import authRoute from './routes/auth.js';
@@ -22,7 +23,6 @@ connectDb();
 app.use(express.json());
 app.use(helmet());
 app.use(morgan('common'));
-app.use(cors());
 app.use('/api/users', userRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/posts', postRoute);
