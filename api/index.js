@@ -23,13 +23,6 @@ connectDb();
 app.use(express.json());
 app.use(helmet());
 app.use(morgan('common'));
-app.use(
-  session({
-    secret: 'Keep it secret',
-    name: 'uniqueSessionID',
-    saveUninitialized: false,
-  })
-);
 app.use(cors());
 app.use('/api/users', userRoute);
 app.use('/api/auth', authRoute);
