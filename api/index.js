@@ -6,7 +6,6 @@ import mongoose from 'mongoose';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import multer from 'multer';
-import session from 'express-session';
 import cors from 'cors';
 import connectDb from './config/db.js';
 import userRoute from './routes/users.js';
