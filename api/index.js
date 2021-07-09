@@ -8,13 +8,13 @@ import morgan from 'morgan';
 import multer from 'multer';
 import connectDb from './config/db.js';
 
+// middleware
+import errorHandler from './middleware/error.js';
+
 // routes
 import userRoute from './routes/users.js';
 import postRoute from './routes/posts.js';
 import authRoute from './routes/auth.js';
-// import postRoute from"./routes/posts"
-// import router = express.Router(
-// import path from"path"
 
 // connect to db
 connectDb();
@@ -23,10 +23,16 @@ connectDb();
 app.use(express.json());
 app.use(helmet());
 app.use(morgan('common'));
+
+// routes
 app.use('/api/users', userRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/posts', postRoute);
 
+// Error Handler Middleware
+app.use(errorHandler);
+
+// starting server
 const PORT = process.env.PORT || 5000;
 
 app.listen(5000, () => {
