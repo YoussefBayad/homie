@@ -2,37 +2,19 @@ import express from 'express';
 import User from '../models/User.js';
 import bcrypt from 'bcrypt';
 const router = express.Router();
+import {
+  login,
+  register,
+  forgotPassword,
+  resetPassword,
+} from '../controllers/auth.js';
 
-router.post('/register', async (req, res) => {
-  try {
-    const newUser = new User({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-    });
+router.post('/register', register);
 
-    //save user
-    const user = await newUser.save();
-    res.status(200).json(user);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+router.post('/login', login);
 
-router.post('/login', async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
-    !user && res.status(400).json('user not found');
+router.post('/forgotpassword', forgotPassword);
 
-    const validPassword = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
-    !validPassword && res.status(400).json('invalid password');
+router.put('/passwordreset/:resetToken', resetPassword);
 
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json(err);
-  }
-});
 export default router;
