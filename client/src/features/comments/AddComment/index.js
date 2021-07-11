@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as DirectIcon } from '../../../assets/icon/direct.svg';
 import { addComment } from '../../../redux/commentsSlice';
 import { editPost } from '../../../redux/postsSlice';
-
+import unknownUser from '../../../assets/icon/unknownUser.jpg';
 //style
 import './style.scss';
 
 const AddComment = ({ postId, setShowComments, commentsCount }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { displayName, photoURL, id } = user;
+  const { username, profilePicture, id } = user;
   const [content, setContent] = useState('');
   const canSave = content.trim() && true;
 
@@ -22,8 +22,8 @@ const AddComment = ({ postId, setShowComments, commentsCount }) => {
       const comment = {
         createdAt: new Date().toISOString(),
         user: {
-          displayName,
-          photoURL,
+          username,
+          profilePicture,
           id,
         },
         content,
@@ -36,8 +36,8 @@ const AddComment = ({ postId, setShowComments, commentsCount }) => {
       setContent('');
     },
     [
-      displayName,
-      photoURL,
+      username,
+      profilePicture,
       id,
       content,
       dispatch,
@@ -51,10 +51,14 @@ const AddComment = ({ postId, setShowComments, commentsCount }) => {
       {useMemo(
         () => (
           <div className='circle'>
-            <img src={photoURL} title={displayName} alt='user' />
+            <img
+              src={profilePicture || unknownUser}
+              title={username}
+              alt='user'
+            />
           </div>
         ),
-        [photoURL, displayName]
+        [profilePicture, username]
       )}
       <form onSubmit={handleAddComment}>
         <div className='add-comment-input'>

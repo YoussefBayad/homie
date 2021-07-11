@@ -72,7 +72,7 @@ export const getTimeLinePosts = async (req, res) => {
     );
     res.status(200).json(friendsPosts.concat(...userPosts));
   } catch (error) {
-    res.status(500).json(error');
+    res.status(500).json(error);
   }
 };
 
