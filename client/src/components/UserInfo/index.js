@@ -51,7 +51,12 @@ const UserInfo = ({
     <div className='user-info'>
       <Link to={`/profile/${user.id}`}>
         <div className='circle'>
-          <img src={user.photoURL} alt='' />
+          <img
+            src={
+              user.profilePicture || 'client/src/assets/icon/unknownUser.jpg'
+            }
+            alt=''
+          />
         </div>
       </Link>
       {showUpload && ifCurrentUser && (
