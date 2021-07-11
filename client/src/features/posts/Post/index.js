@@ -36,7 +36,6 @@ const Post = ({
           createdAt={createdAt}
         />
         <PostSetting
-          id={id}
           postId={id}
           userId={userId}
           setIsEditing={setIsEditing}

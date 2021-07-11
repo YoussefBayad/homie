@@ -9,7 +9,7 @@ import { ReactComponent as EditIcon } from '../../assets/icon/edit.svg';
 import './style.scss';
 import { useMemo } from 'react';
 
-const PostSetting = ({ id, userId, setIsEditing, deleteThunk, postId }) => {
+const PostSetting = ({ userId, setIsEditing, deleteThunk, postId }) => {
   const { user: currentUser } = useSelector((state) => state.auth);
   const posts = useSelector((state) => state.posts.data);
   // const { commentsCount } = useMemo(
@@ -20,10 +20,11 @@ const PostSetting = ({ id, userId, setIsEditing, deleteThunk, postId }) => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [ref] = useOutsideClickRef(() => setIsOpen(false));
-  const showSetting = currentUser.id === userId;
+  const showSetting = currentUser._id === userId;
+
   const handleDelete = () => {
-    dispatch(deleteThunk(id));
-    dispatch(editPost({ id: postId, commentsCount: commentsCount - 1 }));
+    dispatch(deleteThunk(postId));
+    dispatch(editPost({ postId, commentsCount: commentsCount - 1 }));
   };
   return (
     <div className='post-setting'>
