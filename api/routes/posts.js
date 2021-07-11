@@ -1,7 +1,4 @@
 import express from 'express';
-import bcrypt from 'bcrypt';
-import Post from '../models/Post.js';
-import User from '../models/User.js';
 
 const router = express.Router();
 

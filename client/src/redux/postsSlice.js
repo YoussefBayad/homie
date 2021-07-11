@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 const initialState = {
   data: [],
   loading: false,
@@ -35,12 +36,23 @@ export const fetchPosts = createAsyncThunk(
   }
 );
 
-export const addPost = createAsyncThunk('posts/addPost', async (post) => {
-  //   await db
-  //     .collection('posts')
-  //     .add(post)
-  //     .catch((err) => console.error(err));
-});
+export const addPost = createAsyncThunk(
+  'posts/addPost',
+  async ({ post, token }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post('/posts/', post, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const editPost = createAsyncThunk('posts/editPost', async (newPost) => {
   //   try {
   //     var response = await db.collection('posts').doc(newPost.id).update(newPost);
@@ -61,9 +73,6 @@ const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    // latest(state) {
-    //   state.data.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
-    // },
     lowest(state) {
       state.data.sort((a, b) => (a.likesCount > b.likesCount ? 1 : -1));
     },
@@ -92,7 +101,9 @@ const postsSlice = createSlice({
       state.data.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
     },
 
-    // [addPost.rejected]: (state, action) => {},
+    [addPost.rejected]: (state, action) => {
+      state.error = action.payload;
+    },
     [deletePost.pending]: (state, action) => {
       state.loading = true;
     },

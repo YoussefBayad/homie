@@ -5,15 +5,15 @@ import { motion } from 'framer-motion';
 //style
 import './style.scss';
 
-const ProgressBar = ({ file, setFile, setPhotoURL }) => {
+const ProgressBar = ({ file, setFile, setImg }) => {
   const { progress, url } = useStorage(file);
 
   useEffect(() => {
     if (url) {
-      setPhotoURL(url);
+      setImg(url);
       setFile(null);
     }
-  }, [url, setFile, setPhotoURL]);
+  }, [url, setFile, setImg]);
 
   return (
     <div className='progress-bar'>
