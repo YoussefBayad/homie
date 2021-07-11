@@ -9,7 +9,7 @@ import './style.scss';
 const UsernameAndDate = ({
   id,
   profilePicture,
-  displayName,
+  username,
   createdAt,
   ...otherProps
 }) => {
@@ -22,7 +22,7 @@ const UsernameAndDate = ({
           <img src={profilePicture || unknownUser} alt='user' />
         </div>
         <div className='username-and-date'>
-          <p className='post-username'>{displayName} </p>
+          <p className='post-username'>{username} </p>
           {createdAt && (
             <p className='post-date' title={date}>
               <i>{timeAgo} ago</i>

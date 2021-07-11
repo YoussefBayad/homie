@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import Comments from '../../comments/Comments';
 import PostSetting from '../../../components/setting';
-import PostHeader from '../../../components/UsernameAndDate/';
+import PostHeader from '../../../components/UsernameAndDate';
 import EditPost from '../../../components/Edit';
 import Like from '../../likes/Like';
 import Share from '../../share';

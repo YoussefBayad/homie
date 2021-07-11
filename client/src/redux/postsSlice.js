@@ -1,38 +1,32 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { connectAdvanced } from 'react-redux';
+
+// grab token and form header
+const token = JSON.parse(localStorage.getItem('user'))?.token;
+const header = {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
+
+// initial state
 const initialState = {
   data: [],
   loading: false,
   error: undefined,
 };
 
-// [
-// {
-//   id: 1,
-//   user: {
-//     photoURL: avatar,
-//     id: 1,
-//     displayName: 'Joseph Bayad',
-//   },
-//   content: 'you will make it',
-//   createdAt: new Date().toISOString(),
-// },
-// ]
-
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
-  async (_, { dispatch, getState }) => {
-    // try {
-    //   var data = [];
-    //   const query = db.collection('posts').orderBy('createdAt', 'desc');
-    //   const collection = await query.get();
-    //   for (const doc of collection.docs) {
-    //     data.push({ ...doc.data(), id: doc.id });
-    //   }
-    // } catch (err) {
-    //   dispatch({ type: 'posts/fetchPosts/rejected', payload: err });
-    // }
-    // return data;
+  async (userId, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`/posts/timeline/${userId}`, header);
+      console.log(data);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
@@ -40,11 +34,7 @@ export const addPost = createAsyncThunk(
   'posts/addPost',
   async ({ post, token }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post('/posts/', post, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const { data } = await axios.post('/posts/', post, header);
 
       return data;
     } catch (err) {
@@ -82,12 +72,15 @@ const postsSlice = createSlice({
   },
   extraReducers: {
     [fetchPosts.pending]: (state, action) => {
-      return state;
+      state.loading = true;
+      state.error = null;
     },
     [fetchPosts.fulfilled]: (state, action) => {
-      return { data: action.payload || [], loading: false, error: undefined };
+      return { data: action.payload || [], loading: false, error: null };
     },
     [fetchPosts.rejected]: (state, action) => {
+      state.loading = false;
+      state.data = null;
       state.error = action.payload;
     },
     [addPost.pending]: (state, action) => {
