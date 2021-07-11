@@ -9,6 +9,7 @@ import { login as loginCall } from '../../redux/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 // style
 import './style.scss';
+import Google from '../../components/GoogleLogin/GoogleLogin';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -70,7 +71,7 @@ const Login = () => {
         </Form>
       </Formik>
 
-      <Button className='google-login'>Login With Google</Button>
+      <Google />
       <h4>
         Don't have an account ? <Link to='/signup'>SignUp</Link>{' '}
       </h4>
