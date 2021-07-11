@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { parseISO, formatDistanceToNow } from 'date-fns';
+import unknownUser from '../../assets/icon/unknownUser.jpg';
+
 //style
 import './style.scss';
 
 const UsernameAndDate = ({
   id,
-  photoURL,
+  profilePicture,
   displayName,
   createdAt,
   ...otherProps
@@ -17,7 +19,7 @@ const UsernameAndDate = ({
     <Link to={`/profile/${id}`}>
       <div className='post-header' {...otherProps}>
         <div className='circle'>
-          <img src={photoURL} alt='user' />
+          <img src={profilePicture || unknownUser} alt='user' />
         </div>
         <div className='username-and-date'>
           <p className='post-username'>{displayName} </p>

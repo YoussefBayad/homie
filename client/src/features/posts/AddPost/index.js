@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Button from '../../../components/forms/Button';
 import { addPost } from '../../../redux/postsSlice';
 import Textarea from '../../../components/forms/Textarea';
-// import avatar from '../../../assets/icon/unknownUser.jpg';
+import unknownUser from '../../../assets/icon/unknownUser.jpg';
+
 //style
 import './style.scss';
 import { useMemo } from 'react';
@@ -34,7 +35,11 @@ const AddPost = () => {
       {useMemo(
         () => (
           <div className='circle'>
-            <img title={user.username} src={user.profilePicture} alt='user' />
+            <img
+              title={user.username}
+              src={user.profilePicture || unknownUser}
+              alt='profile picture'
+            />
           </div>
         ),
         [user.username, user.profilePicture]

@@ -12,9 +12,9 @@ const Feed = () => {
   const dispatch = useDispatch();
 
   const {
-    id: userId,
-    displayName,
-    photoURL,
+    _id: id,
+    username,
+    profilePicture,
   } = useSelector((state) => state.auth.user);
 
   return (

@@ -14,14 +14,16 @@ import { deletePost, editPost } from '../../../redux/postsSlice';
 import './style.scss';
 
 const Post = ({
-  id,
-  user: { id: userId, photoURL: userPhotoURL, displayName },
+  _id: id,
+  userId,
+  profilePicture,
+  username,
   createdAt,
   content,
-  commentsCount,
-  likesCount,
+  commentsCount = 2,
+  likesCount = 2,
   sharesCount,
-  photoURL,
+  img,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   return (
@@ -29,8 +31,8 @@ const Post = ({
       <div className='post-data'>
         <PostHeader
           id={userId}
-          photoURL={userPhotoURL}
-          displayName={displayName}
+          profilePicture={profilePicture}
+          username={username}
           createdAt={createdAt}
         />
         <PostSetting
@@ -44,7 +46,7 @@ const Post = ({
       {!isEditing ? (
         <div className='post-body'>
           <p className='post-content'> {content}</p>
-          {photoURL && <img src={photoURL} alt='post' />}
+          {img && <img src={img} alt='post' />}
         </div>
       ) : (
         <EditPost

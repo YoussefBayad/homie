@@ -6,6 +6,7 @@ import Button from '../forms/Button';
 import Spinner from '../Spinner';
 import * as Yup from 'yup';
 import ErrorText from '../ErrorText';
+import unknownUser from '../../assets/icon/unknownUser.jpg';
 
 //style
 import './style.scss';
@@ -51,12 +52,7 @@ const UserInfo = ({
     <div className='user-info'>
       <Link to={`/profile/${user.id}`}>
         <div className='circle'>
-          <img
-            src={
-              user.profilePicture || 'client/src/assets/icon/unknownUser.jpg'
-            }
-            alt=''
-          />
+          <img src={user.profilePicture || unknownUser} alt='profile picture' />
         </div>
       </Link>
       {showUpload && ifCurrentUser && (
