@@ -3,7 +3,10 @@ import ErrorResponse from '../utils/errorResponse.js';
 import User from '../models/User.js';
 // import sendEmail from '../utils/sendEmail';
 
-// @desc    Login user
+export const getUser = async (req, res, next) => {
+  res.send(req.user);
+};
+//   Login user
 export const login = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -33,7 +36,7 @@ export const login = async (req, res, next) => {
   }
 };
 
-// @desc    Register user
+//   Register user
 export const register = async (req, res, next) => {
   const { username, email, password } = req.body;
 
@@ -50,7 +53,7 @@ export const register = async (req, res, next) => {
   }
 };
 
-// @desc    Forgot Password Initialization
+//   Forgot Password Initialization
 export const forgotPassword = async (req, res, next) => {
   // Send Email to email provided but first check if user exists
   const { email } = req.body;
@@ -100,7 +103,7 @@ export const forgotPassword = async (req, res, next) => {
   }
 };
 
-// @desc    Reset User Password
+//   Reset User Password
 export const resetPassword = async (req, res, next) => {
   // Compare token in URL params to hashed token
   const resetPasswordToken = crypto
