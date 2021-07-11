@@ -15,6 +15,7 @@ import errorHandler from './middleware/error.js';
 import userRoute from './routes/users.js';
 import postRoute from './routes/posts.js';
 import authRoute from './routes/auth.js';
+import { protect } from './middleware/auth.js';
 
 // connect to db
 connectDb();
@@ -27,7 +28,7 @@ app.use(morgan('common'));
 // routes
 app.use('/api/users', userRoute);
 app.use('/api/auth', authRoute);
-app.use('/api/posts', postRoute);
+app.use('/api/posts', protect, postRoute);
 
 // Error Handler Middleware
 app.use(errorHandler);
