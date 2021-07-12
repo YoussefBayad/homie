@@ -12,10 +12,10 @@ import {
   unfollow,
 } from '../controllers/users.js';
 
-router.get('/:id', getUser);
-router.put('/:id', updateUser);
-router.delete('/:id', deleteUser);
-router.put('/:id/follow', follow);
-router.put('/:id/unfollow', unfollow);
+router.get('/:username', getUser);
+router.put('/:username', updateUser);
+router.delete('/:username', deleteUser);
+router.put('/:username/follow', follow);
+router.put('/:username/unfollow', unfollow);
 
 export default router;

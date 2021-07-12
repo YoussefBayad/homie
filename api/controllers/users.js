@@ -3,7 +3,7 @@ import User from '../models/User.js';
 // get user
 export const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findOne({ username: req.params.username });
     const { updatedAt, password, ...others } = user._doc;
     res.status(200).json(others);
   } catch (error) {

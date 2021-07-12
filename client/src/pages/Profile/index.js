@@ -10,21 +10,21 @@ import { ReactComponent as DirectIcon } from '../../assets/icon/direct.svg';
 
 //style
 import './style.scss';
+import { fetchUser } from '../../redux/usersSlice';
 
 const Profile = () => {
   const dispatch = useDispatch();
   const { username } = useParams();
   const currentUser = useSelector((state) => state.auth.user);
-  const user = currentUser;
+  const user = useSelector((state) => state.users.data);
   const ifCurrentUser = username === currentUser.username;
-  console.log('if user', ifCurrentUser);
-  if (!ifCurrentUser) {
-    //fetch user
-    // const user = users?.find((user) => user.username === username);
-  }
 
   const [isEditing, setIsEditing] = useState(false);
-
+  useEffect(() => {
+    if (!ifCurrentUser) {
+      dispatch(fetchUser(username));
+    }
+  }, [dispatch, username]);
   return (
     <div className='profile'>
       {user && (

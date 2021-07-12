@@ -1,37 +1,51 @@
-// import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-// import { db } from '../Firebase/utils';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-// const initialState = {
-//   data: [],
-//   loading: false,
-//   error: undefined,
-// };
+// grab token and form header
+const token = JSON.parse(localStorage.getItem('user'))?.token;
+const header = {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
 
-// export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
-//   const collection = await db.collection('users').get();
+const initialState = {
+  data: [],
+  loading: false,
+  error: null,
+};
 
-//   let users = [];
+export const fetchUser = createAsyncThunk(
+  'users/fetchUser',
+  async (username, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`/users/${username}`, header);
+      console.log('data', data);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
-//   for (const doc of collection.docs) {
-//     users.push({ ...doc.data(), id: doc.id });
-//   }
+const usersSlice = createSlice({
+  name: 'users',
+  initialState,
+  reducers: {},
+  extraReducers: {
+    [fetchUser.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [fetchUser.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.data = action.payload;
+      state.error = null;
+    },
+    [fetchUser.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+  },
+});
 
-//   return users;
-// });
-
-// const usersSlice = createSlice({
-//   name: 'users',
-//   initialState,
-//   reducers: {},
-//   extraReducers: {
-//     [fetchUsers.pending]: (state, action) => {},
-//     [fetchUsers.fulfilled]: (state, action) => {
-//       state.data = action.payload;
-//     },
-//     [fetchUsers.rejected]: (state, action) => {
-//       return (state.error = 'something went wrong');
-//     },
-//   },
-// });
-
-// export default usersSlice.reducer;
+export default usersSlice.reducer;
