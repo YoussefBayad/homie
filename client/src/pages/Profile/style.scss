@@ -20,6 +20,11 @@
       font-size: larger;
     }
   }
+  .profile-actions {
+    margin: auto;
+    width: 60%;
+    @include flex();
+  }
   .send-message {
     width: 20rem;
     @include background-transition($blue, lighten($blue, 20%));

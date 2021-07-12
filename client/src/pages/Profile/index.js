@@ -45,7 +45,7 @@ const Profile = () => {
             </Button>
           )}
           {!ifCurrentUser && (
-            <>
+            <div class='profile-actions'>
               <Follow
                 username={currentUser.username}
                 userToFollow={username}
@@ -57,7 +57,7 @@ const Profile = () => {
                 Send Message
                 <DirectIcon />
               </Link>
-            </>
+            </div>
           )}
         </>
       )}
