@@ -75,13 +75,11 @@ export const follow = createAsyncThunk(
 //unfolow
 export const unfollow = createAsyncThunk(
   'users/unfollow',
-  async ({ username, userToUnfollow }, { rejectWithValue }) => {
-    console.log('follow');
-
+  async ({ username, userToFollow }, { rejectWithValue }) => {
     try {
       const { data } = await axios.put(
-        `users/${userToUnfollow}/unfollow`,
-        username,
+        `/users/${userToFollow}/unfollow`,
+        { username },
         header
       );
       return data;
@@ -146,6 +144,11 @@ const authSlice = createSlice({
     [follow.rejected]: (state, action) => {
       // state.loading = false;
       // state.error = action.payload;
+    },
+    [unfollow.fulfilled]: (state, action) => {
+      state.user.followings = state.user.followings.filter(
+        (username) => username !== action.payload.username
+      );
     },
   },
 });

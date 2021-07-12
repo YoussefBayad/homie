@@ -50,7 +50,6 @@ const Profile = () => {
                 username={currentUser.username}
                 userToFollow={username}
                 followings={currentUser.followings}
-                followers={currentUser.followers}
               />
               <Link
                 to={`/chat/${currentUser.username}/${username}`}

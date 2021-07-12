@@ -3,13 +3,15 @@ import { useDispatch } from 'react-redux';
 import Button from '../../components/forms/Button';
 import { follow, unfollow } from '../../redux/authSlice';
 
-const Follow = ({ username, userToFollow, followings, followers }) => {
+const Follow = ({ username, userToFollow, followings }) => {
   const dispatch = useDispatch();
 
-  const alreadyFollow = followers?.includes(userToFollow);
+  const alreadyFollow = followings?.includes(userToFollow);
   const handleFollow = () => {};
   return alreadyFollow ? (
-    <Button onClick={handleFollow}>Unfollow</Button>
+    <Button onClick={() => dispatch(unfollow({ username, userToFollow }))}>
+      Unfollow
+    </Button>
   ) : (
     <Button onClick={() => dispatch(follow({ username, userToFollow }))}>
       Follow
