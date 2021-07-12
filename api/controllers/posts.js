@@ -22,7 +22,9 @@ export const updatePost = async (req, res) => {
       await post.updateOne({
         $set: req.body,
       });
-      res.status(200).json('Post has been updated');
+      res
+        .status(200)
+        .json({ message: 'Post has been updated', post: req.body });
     } else {
       return res.status(403).json('You can update only your posts !');
     }

@@ -29,6 +29,8 @@ export const fetchPosts = createAsyncThunk(
   }
 );
 
+// add post
+
 export const addPost = createAsyncThunk(
   'posts/addPost',
   async ({ post, token }, { rejectWithValue }) => {
@@ -42,13 +44,22 @@ export const addPost = createAsyncThunk(
   }
 );
 
-export const editPost = createAsyncThunk('posts/editPost', async (newPost) => {
-  //   try {
-  //     var response = await db.collection('posts').doc(newPost.id).update(newPost);
-  //   } catch (error) {
-  //     console.error(error.message);
-  //   }
-});
+// edit post
+
+export const editPost = createAsyncThunk(
+  'posts/editPost',
+  async (newPost, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.put(`posts/${newPost._id}`, newPost, header);
+      console.log(data);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+// delete post
 
 export const deletePost = createAsyncThunk(
   'posts/deletePost',
@@ -113,18 +124,21 @@ const postsSlice = createSlice({
     [deletePost.rejected]: (state, action) => {
       state.message = action.payload.message;
     },
-    // [editPost.pending]: (state, action) => {
-
-    // },
+    [editPost.pending]: (state, action) => {
+      state.message = 'editing post pending';
+    },
     [editPost.fulfilled]: (state, action) => {
       if (!action.payload) return;
 
-      state.data = state.data.map((post) => {
-        if (post.id === action.payload.id) post = action.payload;
-        return post;
+      state.data.map((post) => {
+        if (post._id === action.payload.post._id)
+          post.content = action.payload.post.content;
       });
+      state.message = 'post has been edited';
     },
-    // [editPost.rejected]: (state, action) => {},
+    [editPost.rejected]: (state, action) => {
+      state.message = action.payload;
+    },
   },
 });
 

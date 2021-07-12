@@ -6,13 +6,14 @@ import { useDispatch } from 'react-redux';
 //style
 import './style.scss';
 
-const Edit = ({ content, id, editThunk, setIsEditing, height }) => {
+const Edit = ({ content, id, userId, editThunk, setIsEditing, height }) => {
   const dispatch = useDispatch();
   const [newContent, setNewContent] = useState(content);
   const handleEditPost = () => {
     dispatch(
       editThunk({
-        id,
+        _id: id,
+        userId: userId,
         content: newContent,
       })
     );
