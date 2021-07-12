@@ -37,9 +37,11 @@ export const deletePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
-    if (req.body.userId === post.userId || req.body.isAdmin) {
+    if (req.params.userId === post.userId || req.body.isAdmin) {
       await post.deleteOne();
-      res.status(200).json('Post has been deleted');
+      res
+        .status(200)
+        .json({ message: 'Post has been deleted', postId: post._id });
     } else {
       return res.status(403).json('You can delete only your posts !');
     }

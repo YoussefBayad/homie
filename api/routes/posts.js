@@ -13,7 +13,7 @@ import {
 
 router.post('/', createPost);
 router.put('/:id', updatePost);
-router.delete('/:id', deletePost);
+router.delete('/:id/:userId', deletePost);
 router.get('/:id', getPost);
 router.get('/timeline/:userId', getTimeLinePosts);
 router.put('/:id/like', likePost);

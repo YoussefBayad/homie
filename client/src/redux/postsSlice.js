@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { connectAdvanced } from 'react-redux';
 
 // grab token and form header
 const token = JSON.parse(localStorage.getItem('user'))?.token;
@@ -14,7 +13,8 @@ const header = {
 const initialState = {
   data: [],
   loading: false,
-  error: undefined,
+  error: null,
+  message: null,
 };
 
 export const fetchPosts = createAsyncThunk(
@@ -22,7 +22,6 @@ export const fetchPosts = createAsyncThunk(
   async (userId, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(`/posts/timeline/${userId}`, header);
-      console.log(data);
       return data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -51,13 +50,17 @@ export const editPost = createAsyncThunk('posts/editPost', async (newPost) => {
   //   }
 });
 
-export const deletePost = createAsyncThunk('posts/deletePost', async (id) => {
-  //   try {
-  //     var response = await db.collection('posts').doc(id).delete();
-  //   } catch (error) {
-  //     console.error('deletePost', error.message);
-  //   }
-});
+export const deletePost = createAsyncThunk(
+  'posts/deletePost',
+  async ({ id, userId }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.delete(`posts/${id}/${userId}`, header);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const postsSlice = createSlice({
   name: 'posts',
@@ -98,15 +101,18 @@ const postsSlice = createSlice({
       state.error = action.payload;
     },
     [deletePost.pending]: (state, action) => {
-      state.loading = true;
+      state.message = 'delete post pending';
     },
     [deletePost.fulfilled]: (state, action) => {
       if (!action.payload) return;
-
-      state.loading = false;
-      state.data = state.data.filter((post) => post.id !== action.payload);
+      state.message = action.payload.message;
+      state.data = state.data.filter(
+        (post) => post._id !== action.payload.postId
+      );
     },
-    // [deletePost.rejected]: (state, action) => {},
+    [deletePost.rejected]: (state, action) => {
+      state.message = action.payload.message;
+    },
     // [editPost.pending]: (state, action) => {
 
     // },

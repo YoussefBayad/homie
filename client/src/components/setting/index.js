@@ -23,8 +23,8 @@ const PostSetting = ({ userId, setIsEditing, deleteThunk, postId }) => {
   const showSetting = currentUser._id === userId;
 
   const handleDelete = () => {
-    dispatch(deleteThunk(postId));
-    dispatch(editPost({ postId, commentsCount: commentsCount - 1 }));
+    dispatch(deleteThunk({ id: postId, userId }));
+    // dispatch(editPost({ postId, commentsCount: commentsCount - 1 }));
   };
   return (
     <div className='post-setting'>
