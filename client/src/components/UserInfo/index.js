@@ -91,11 +91,11 @@ const UserInfo = ({
           <p>posts</p>
         </div>
         <div className='profile-number'>
-          <p>{user.followersCount}</p>
+          <p>{user.followers?.length}</p>
           <p>followers</p>
         </div>
         <div className='profile-number'>
-          <p>{user.followingCount}</p>
+          <p>{user.followings?.length}</p>
           <p>following</p>
         </div>
       </div>

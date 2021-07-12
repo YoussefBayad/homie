@@ -15,6 +15,7 @@ const initialState = {
   error: null,
 };
 
+// fetch a user
 export const fetchUser = createAsyncThunk(
   'users/fetchUser',
   async (username, { rejectWithValue }) => {
@@ -28,6 +29,40 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
+// follow
+export const follow = createAsyncThunk(
+  'users/follow',
+  async (username, userToFollow, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.put(
+        `/${userToFollow}/follow`,
+        username,
+        header
+      );
+      console.log('data', data);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+//unfolow
+export const unfollow = createAsyncThunk(
+  'users/unfollow',
+  async (username, userToUnfollow, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.put(
+        `/${userToUnfollow}/unfollow`,
+        username,
+        header
+      );
+      console.log('data', data);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 const usersSlice = createSlice({
   name: 'users',
   initialState,

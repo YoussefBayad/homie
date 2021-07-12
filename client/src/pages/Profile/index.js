@@ -11,6 +11,7 @@ import { ReactComponent as DirectIcon } from '../../assets/icon/direct.svg';
 //style
 import './style.scss';
 import { fetchUser } from '../../redux/usersSlice';
+import Follow from '../../features/follow';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -44,12 +45,20 @@ const Profile = () => {
             </Button>
           )}
           {!ifCurrentUser && (
-            <Link
-              to={`/chat/${currentUser.username}/${username}`}
-              className='btn send-message'>
-              Send Message
-              <DirectIcon />
-            </Link>
+            <>
+              <Follow
+                username={currentUser.username}
+                userToFollow={username}
+                followings={currentUser.followings}
+                followers={currentUser.followers}
+              />
+              <Link
+                to={`/chat/${currentUser.username}/${username}`}
+                className='btn send-message'>
+                Send Message
+                <DirectIcon />
+              </Link>
+            </>
           )}
         </>
       )}
