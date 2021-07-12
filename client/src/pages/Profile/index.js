@@ -13,27 +13,17 @@ import './style.scss';
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const { id } = useParams();
-  const users = useSelector((state) => state.users.data);
-  const currentUserId = useSelector((state) => state.auth.user.id);
-  const user = users?.find((user) => user.id === id);
+  const { username } = useParams();
+  const currentUser = useSelector((state) => state.auth.user);
+  const user = currentUser;
+  const ifCurrentUser = username === currentUser.username;
+  console.log('if user', ifCurrentUser);
+  if (!ifCurrentUser) {
+    //fetch user
+    // const user = users?.find((user) => user.username === username);
+  }
 
-  const ifCurrentUser = user && user.id === currentUserId;
   const [isEditing, setIsEditing] = useState(false);
-
-  useEffect(() => {
-    const unsubscribeUser = userInfoListener(id);
-    const unsubscribeLikes = likesListener(id);
-    const unsubscribePost = postsListener();
-    if (users.length === 0) {
-      dispatch(fetchUsers());
-    }
-    return () => {
-      unsubscribeUser();
-      unsubscribeLikes();
-      unsubscribePost();
-    };
-  }, [id, users, dispatch]);
 
   return (
     <div className='profile'>
@@ -55,7 +45,7 @@ const Profile = () => {
           )}
           {!ifCurrentUser && (
             <Link
-              to={`/chat/${currentUserId}/${id}`}
+              to={`/chat/${currentUser.username}/${username}`}
               className='btn send-message'>
               Send Message
               <DirectIcon />
@@ -65,7 +55,7 @@ const Profile = () => {
       )}
       <h2>Posts</h2>
       {ifCurrentUser && <AddPost />}
-      <Posts userId={id} />
+      <Posts userId={user._id} />
       <BackToTop />
     </div>
   );

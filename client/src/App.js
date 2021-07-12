@@ -66,7 +66,7 @@ function App() {
             <h1>Admin</h1>
           </WithAdminAuth>
         </WithAuth>*/}
-      <WithAuth path='/profile/:id'>
+      <WithAuth path='/profile/:username'>
         <MainLayout>
           <Profile />
         </MainLayout>
