@@ -1,6 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+// grab token and form header
+const token = JSON.parse(localStorage.getItem('user'))?.token;
+const header = {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
+
 const initialState = {
   user: JSON.parse(localStorage.getItem('user')) || null,
   loading: false,
@@ -47,6 +55,41 @@ export const editUserInfo = createAsyncThunk(
   }
 );
 
+// follow
+export const follow = createAsyncThunk(
+  'users/follow',
+  async ({ username, userToFollow }, { rejectWithValue }) => {
+    console.log('fololow', userToFollow, username);
+    try {
+      const { data } = await axios.put(
+        `/users/${userToFollow}/follow`,
+        { username },
+        header
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+//unfolow
+export const unfollow = createAsyncThunk(
+  'users/unfollow',
+  async ({ username, userToUnfollow }, { rejectWithValue }) => {
+    console.log('follow');
+
+    try {
+      const { data } = await axios.put(
+        `users/${userToUnfollow}/unfollow`,
+        username,
+        header
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 // auth slice
 
 const authSlice = createSlice({
@@ -92,6 +135,17 @@ const authSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
       state.user = null;
+    },
+    [follow.pending]: (state, action) => {
+      // state.message.loading = true;
+      // state.message.content = 'user follow pending';
+    },
+    [follow.fulfilled]: (state, action) => {
+      state.user.followings.push(action.payload.username);
+    },
+    [follow.rejected]: (state, action) => {
+      // state.loading = false;
+      // state.error = action.payload;
     },
   },
 });

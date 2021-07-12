@@ -1,25 +1,19 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { follow, unfollow } from '../../redux/usersSlice';
+import Button from '../../components/forms/Button';
+import { follow, unfollow } from '../../redux/authSlice';
 
 const Follow = ({ username, userToFollow, followings, followers }) => {
   const dispatch = useDispatch();
 
-  const follow = followers?.includes(userToFollow);
-  console.log(follow);
-
-  return !follow ? (
-    <button
-      className='btn '
-      onClick={() => dispatch(follow(username, userToFollow))}>
-      Follow
-    </button>
+  const alreadyFollow = followers?.includes(userToFollow);
+  const handleFollow = () => {};
+  return alreadyFollow ? (
+    <Button onClick={handleFollow}>Unfollow</Button>
   ) : (
-    <button
-      className='btn unfollow'
-      onClick={() => dispatch(unfollow(username, userToFollow))}>
-      Unfollow
-    </button>
+    <Button onClick={() => dispatch(follow({ username, userToFollow }))}>
+      Follow
+    </Button>
   );
 };
 
