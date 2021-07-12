@@ -11,7 +11,7 @@ import WithNoAuth from './hoc/withNoAuth';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-// import Profile from './pages/Profile';
+import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 // import NotificationsPage from './pages/Notifications';
 // import Chat from './pages/Chat';
@@ -65,12 +65,12 @@ function App() {
           <WithAdminAuth>
             <h1>Admin</h1>
           </WithAdminAuth>
-        </WithAuth>
-        <WithAuth path='/profile/:id'>
-          <MainLayout>
-            <Profile />
-          </MainLayout>
-        </WithAuth> */}
+        </WithAuth>*/}
+      <WithAuth path='/profile/:id'>
+        <MainLayout>
+          <Profile />
+        </MainLayout>
+      </WithAuth>
       <Route path='*'>
         <Container>
           <NotFound />

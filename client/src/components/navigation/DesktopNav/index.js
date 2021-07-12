@@ -12,7 +12,7 @@ import { ReactComponent as LogoutIcon } from '../../../assets/icon/logout.svg';
 import './style.scss';
 import { logout } from '../../../redux/authSlice';
 
-const DesktopNav = ({ userId }) => {
+const DesktopNav = ({ username }) => {
   const dispatch = useDispatch();
   const notifications = [];
   const admin = 'volTozosNrMZJuUCZqvPswYPWzm2';
@@ -24,7 +24,7 @@ const DesktopNav = ({ userId }) => {
         <p>Feed</p>
       </NavLink>
       <NavLink
-        to={`/chat/${userId}/${admin}`}
+        to={`/chat/${username}/${admin}`}
         className='link'
         activeClassName='main-nav-active'>
         <MingleIcon />
@@ -45,7 +45,7 @@ const DesktopNav = ({ userId }) => {
         <p>Search</p>
       </NavLink>
       <NavLink
-        to={`/profile/${userId}`}
+        to={`/profile/${username}`}
         className='link'
         activeClassName='main-nav-active'>
         <UserIcon />
