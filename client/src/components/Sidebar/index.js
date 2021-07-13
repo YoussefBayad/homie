@@ -13,7 +13,7 @@ const Sidebar = React.memo(() => {
     <div className='sidebar'>
       <h1 className='title'>Homie</h1>
       <UserInfo user={user} />
-      <DesktopNav userId={user._id} />
+      <DesktopNav username={user.username} />
     </div>
   );
 });

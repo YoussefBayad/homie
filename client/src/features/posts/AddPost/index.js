@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Button from '../../../components/forms/Button';
 import { addPost } from '../../../redux/postsSlice';
 import Textarea from '../../../components/forms/Textarea';
-// import avatar from '../../../assets/icon/unknownUser.jpg';
+import unknownUser from '../../../assets/icon/unknownUser.jpg';
+
 //style
 import './style.scss';
 import { useMemo } from 'react';
@@ -14,33 +15,31 @@ const AddPost = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [content, setContent] = useState('');
-  const [profilePicture, setProfilePicture] = useState(null);
+  const [img, setImg] = useState(null);
   const canSave = useMemo(() => content.trim() && true, [content]);
 
   const handleAddPost = useCallback(() => {
     const post = {
-      createdAt: new Date().toISOString(),
-      user: {
-        username: user.username,
-        id: user._id,
-        profilePicture: user.profilePicture,
-      },
-      likesCount: 0,
-      commentsCount: 0,
-      sharesCount: 0,
+      username: user.username,
+      userId: user._id,
+      profilePicture: user.profilePicture,
       content,
-      profilePicture,
+      img,
     };
-    dispatch(addPost(post));
+    dispatch(addPost({ post, token: user.token }));
     setContent('');
-    setProfilePicture(null);
-  }, [user.username, user._id, user.profilePicture, content, dispatch]);
+    setImg(null);
+  }, [img, content, dispatch]);
   return (
     <div className='add-post' id='top'>
       {useMemo(
         () => (
           <div className='circle'>
-            <img title={user.username} src={user.profilePicture} alt='user' />
+            <img
+              title={user.username}
+              src={user.profilePicture || unknownUser}
+              alt='profile picture'
+            />
           </div>
         ),
         [user.username, user.profilePicture]
@@ -52,13 +51,13 @@ const AddPost = () => {
           content={content}
           setContent={setContent}
         />
-        {profilePicture && (
+        {img && (
           <div className='post-img'>
-            <img src={profilePicture} alt='post' />
+            <img src={img} alt='post' />
           </div>
         )}
         <div className='second-row'>
-          <UploadForm svg='image' setProfilePicture={setProfilePicture} />
+          <UploadForm svg='image' setImg={setImg} />
           <Button onClick={handleAddPost} disabled={!canSave}>
             Post
           </Button>

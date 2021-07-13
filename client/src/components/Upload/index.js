@@ -5,7 +5,7 @@ import { ReactComponent as AddIcon } from '../../assets/icon/add.svg';
 import { ReactComponent as ImgIcon } from '../../assets/icon/media.svg';
 //style
 import './style.scss';
-const UploadForm = ({ svg, setPhotoURL }) => {
+const UploadForm = ({ svg, setImg }) => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
 
@@ -36,13 +36,7 @@ const UploadForm = ({ svg, setPhotoURL }) => {
       <div className='output'>
         {error && <ErrorText>{error} </ErrorText>}
         {file && <div>{file.name}</div>}
-        {file && (
-          <ProgressBar
-            file={file}
-            setFile={setFile}
-            setPhotoURL={setPhotoURL}
-          />
-        )}
+        {file && <ProgressBar file={file} setFile={setFile} setImg={setImg} />}
       </div>
     </form>
   );

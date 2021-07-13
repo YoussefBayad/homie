@@ -1,0 +1,23 @@
+@import '../../default.scss';
+
+.follow {
+  @extend .btn;
+  width: 20rem;
+  display: block;
+  margin: auto;
+  line-height: 3rem;
+}
+
+.unfollow {
+  @extend .btn;
+  width: 20rem;
+  color: $black;
+  @include background-transition($white, lighten($white, 0%));
+  border: 2px solid $black;
+  display: block;
+  margin: auto;
+  line-height: 3rem;
+  &:hover {
+    @include background-transition($white, darken($white, 5%));
+  }
+}

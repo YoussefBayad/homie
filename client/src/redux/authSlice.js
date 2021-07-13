@@ -1,8 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+// grab token and form header
+const token = JSON.parse(localStorage.getItem('user'))?.token;
+const header = {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
+
 const initialState = {
-  user: null,
+  user: JSON.parse(localStorage.getItem('user')) || null,
   loading: false,
   error: null,
 };
@@ -12,9 +20,10 @@ export const register = createAsyncThunk(
   'user/register',
   async (user, { rejectWithValue }) => {
     try {
-      const res = await axios.post('/auth/register', user);
-      console.log(res.data);
-      return res.data;
+      const { data } = await axios.post('/auth/register', user);
+      console.log(data);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      return data;
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -26,9 +35,10 @@ export const login = createAsyncThunk(
   'user/login',
   async (user, { rejectWithValue }) => {
     try {
-      const res = await axios.post('/auth/login', user);
-      console.log(res.data);
-      return res.data;
+      const { data } = await axios.post('/auth/login', user);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      console.log(data);
+      return data;
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -45,14 +55,48 @@ export const editUserInfo = createAsyncThunk(
   }
 );
 
+// follow
+export const follow = createAsyncThunk(
+  'users/follow',
+  async ({ username, userToFollow }, { rejectWithValue }) => {
+    console.log('fololow', userToFollow, username);
+    try {
+      const { data } = await axios.put(
+        `/users/${userToFollow}/follow`,
+        { username },
+        header
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+//unfolow
+export const unfollow = createAsyncThunk(
+  'users/unfollow',
+  async ({ username, userToFollow }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.put(
+        `/users/${userToFollow}/unfollow`,
+        { username },
+        header
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 // auth slice
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    authChange(state, action) {
-      return (state = action.payload);
+    logout(state, action) {
+      localStorage.removeItem('user');
+      state.user = null;
     },
   },
   extraReducers: {
@@ -63,7 +107,7 @@ const authSlice = createSlice({
     },
     [login.fulfilled]: (state, action) => {
       if (!action.payload) return;
-      state.user = action.payload;
+      state.user = action.payload.user;
       state.loading = false;
       state.error = null;
     },
@@ -80,7 +124,7 @@ const authSlice = createSlice({
     },
     [register.fulfilled]: (state, action) => {
       if (!action.payload) return;
-      state.user = action.payload;
+      state.user = action.payload.user;
       state.loading = false;
       state.error = null;
     },
@@ -90,9 +134,25 @@ const authSlice = createSlice({
       state.loading = false;
       state.user = null;
     },
+    [follow.pending]: (state, action) => {
+      // state.message.loading = true;
+      // state.message.content = 'user follow pending';
+    },
+    [follow.fulfilled]: (state, action) => {
+      state.user.followings.push(action.payload.username);
+    },
+    [follow.rejected]: (state, action) => {
+      // state.loading = false;
+      // state.error = action.payload;
+    },
+    [unfollow.fulfilled]: (state, action) => {
+      state.user.followings = state.user.followings.filter(
+        (username) => username !== action.payload.username
+      );
+    },
   },
 });
 
-export const { authChange } = authSlice.actions;
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;

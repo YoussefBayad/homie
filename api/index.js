@@ -6,15 +6,16 @@ import mongoose from 'mongoose';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import multer from 'multer';
-import session from 'express-session';
-import cors from 'cors';
 import connectDb from './config/db.js';
+
+// middleware
+import errorHandler from './middleware/error.js';
+
+// routes
 import userRoute from './routes/users.js';
 import postRoute from './routes/posts.js';
 import authRoute from './routes/auth.js';
-// import postRoute from"./routes/posts"
-// import router = express.Router(
-// import path from"path"
+import { protect } from './middleware/auth.js';
 
 // connect to db
 connectDb();
@@ -23,18 +24,16 @@ connectDb();
 app.use(express.json());
 app.use(helmet());
 app.use(morgan('common'));
-app.use(
-  session({
-    secret: 'Keep it secret',
-    name: 'uniqueSessionID',
-    saveUninitialized: false,
-  })
-);
-app.use(cors());
-app.use('/api/users', userRoute);
-app.use('/api/auth', authRoute);
-app.use('/api/posts', postRoute);
 
+// routes
+app.use('/api/users', protect, userRoute);
+app.use('/api/auth', authRoute);
+app.use('/api/posts', protect, postRoute);
+
+// Error Handler Middleware
+app.use(errorHandler);
+
+// starting server
 const PORT = process.env.PORT || 5000;
 
 app.listen(5000, () => {

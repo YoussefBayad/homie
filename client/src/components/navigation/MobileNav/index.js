@@ -14,7 +14,7 @@ const admin = 'volTozosNrMZJuUCZqvPswYPWzm2';
 const MobileNav = () => {
   const allNotifications = [];
   const notifications = allNotifications.filter((not) => !not.read);
-  const userId = useSelector((state) => state.auth.user.id);
+  const username = useSelector((state) => state.auth.user.username);
   return (
     <nav className='mobile-nav'>
       <div className='mobile-nav-inner'>
@@ -39,7 +39,7 @@ const MobileNav = () => {
           <AddIcon />
         </a>
         <NavLink
-          to={`/chat/${userId}/${admin}`}
+          to={`/chat/${username}/${admin}`}
           className='link'
           activeClassName='main-nav-active'>
           <MingleIcon />

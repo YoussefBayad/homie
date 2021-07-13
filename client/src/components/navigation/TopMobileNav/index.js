@@ -8,13 +8,13 @@ import { useSelector } from 'react-redux';
 import './style.scss';
 
 const TopMobileNav = () => {
-  const userId = useSelector((state) => state.auth.user.id);
+  const username = useSelector((state) => state.auth.user.username);
 
   return (
     <div className='top-mobile-nav'>
       <div className='top-mobile-nav-inner'>
         <NavLink
-          to={`/profile/${userId}`}
+          to={`/profile/${username}`}
           className='link'
           activeClassName='main-nav-active'>
           <UserIcon />

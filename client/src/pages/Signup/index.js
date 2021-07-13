@@ -8,6 +8,7 @@ import { register } from '../../redux/authSlice';
 import ErrorText from '../../components/ErrorText';
 import Button from '../../components/forms/Button';
 import Label from '../../components/forms/Label';
+import Google from '../../components/GoogleLogin/GoogleLogin';
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -81,7 +82,7 @@ const Signup = () => {
           </Button>
         </Form>
       </Formik>
-      <Button className='google-login'>Sign up With Google</Button>
+      <Google />
       <h4>
         Already have an account ? <Link to='/login'>Login Now</Link>{' '}
       </h4>

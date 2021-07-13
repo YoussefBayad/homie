@@ -6,6 +6,7 @@ import Button from '../forms/Button';
 import Spinner from '../Spinner';
 import * as Yup from 'yup';
 import ErrorText from '../ErrorText';
+import unknownUser from '../../assets/icon/unknownUser.jpg';
 
 //style
 import './style.scss';
@@ -51,7 +52,7 @@ const UserInfo = ({
     <div className='user-info'>
       <Link to={`/profile/${user.id}`}>
         <div className='circle'>
-          <img src={user.photoURL} alt='' />
+          <img src={user.profilePicture || unknownUser} alt='profile picture' />
         </div>
       </Link>
       {showUpload && ifCurrentUser && (
@@ -90,11 +91,11 @@ const UserInfo = ({
           <p>posts</p>
         </div>
         <div className='profile-number'>
-          <p>{user.followersCount}</p>
+          <p>{user.followers?.length}</p>
           <p>followers</p>
         </div>
         <div className='profile-number'>
-          <p>{user.followingCount}</p>
+          <p>{user.followings?.length}</p>
           <p>following</p>
         </div>
       </div>
